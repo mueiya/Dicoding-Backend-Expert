@@ -1,10 +1,10 @@
 # Dicoding Backend Expert Project
 
-This repository contains my submission for the "Menjadi Back-End Developer Expert" course on Dicoding Indonesia.
+🚀 This repository contains my submission for the "Menjadi Back-End Developer Expert" course on Dicoding Indonesia.
 
 ## Project Starter Features (Provided by Dicoding)
 
-The starter project provided by Dicoding includes the following features:
+🛠️ The starter project provided by Dicoding includes the following features:
 
 - **User Authentication**
   - User registration, login, refresh access token, and logout functionalities are available.
@@ -20,7 +20,7 @@ The starter project provided by Dicoding includes the following features:
 
 ## Features
 
-In addition to the features provided by the starter project, the submission includes the following enhancements:
+🌟 In addition to the features provided by the starter project, the submission includes the following enhancements:
 
 1. **Thread Creation**
    - Users can add new threads with a title and body content.
@@ -65,7 +65,7 @@ In addition to the features provided by the starter project, the submission incl
 
 ## Running the Program
 
-Before running the program, ensure that you have the following installed:
+🚀 Before running the program, ensure that you have the following installed:
 
 - Node.js
 - npm (Node Package Manager)
@@ -90,17 +90,17 @@ To run the program, follow these steps:
 
 ## Tech Stack Overview
 
-- **Framework**: Hapi.js
-- **Authentication**: JWT (JSON Web Tokens)
-- **Database**: PostgreSQL
-- **Encryption**: bcrypt
-- **Environment Variables Management**: dotenv
-- **Testing**: Jest (with integration for environment variables using dotenv), ESLint
-- **Development Utilities**: nodemon, node-pg-migrate
-- **Language**: JavaScript
+💻 **Framework**: Hapi.js
+🔐 **Authentication**: JWT (JSON Web Tokens)
+🛢️ **Database**: PostgreSQL
+🔒 **Encryption**: bcrypt
+🔧 **Environment Variables Management**: dotenv
+🧪 **Testing**: Jest (with integration for environment variables using dotenv), ESLint
+🛠️ **Development Utilities**: nodemon, node-pg-migrate
+📝 **Language**: JavaScript
 
 ## Testing API
 
-To facilitate API testing, Dicoding provides a Postman Collection and Environment Test. You can download the files from the following link:
+🧪 To facilitate API testing, Dicoding provides a Postman Collection and Environment Test. You can download the files from the following link:
 
 [Forum API V1 Postman Collection + Environment Test](https://github.com/dicodingacademy/a276-backend-expert-labs/raw/099-shared-content/shared-content/03-submission-content/01-Forum-API-V1/Forum%20API%20V1%20Test.zip)
