@@ -90,14 +90,14 @@ To run the program, follow these steps:
 
 ## Tech Stack Overview
 
-💻 **Framework**: Hapi.js
-🔐 **Authentication**: JWT (JSON Web Tokens)
-🛢️ **Database**: PostgreSQL
-🔒 **Encryption**: bcrypt
-🔧 **Environment Variables Management**: dotenv
-🧪 **Testing**: Jest (with integration for environment variables using dotenv), ESLint
-🛠️ **Development Utilities**: nodemon, node-pg-migrate
-📝 **Language**: JavaScript
+- 💻 **Framework**: Hapi.js
+- 🔐 **Authentication**: JWT (JSON Web Tokens)
+- 🛢️ **Database**: PostgreSQL
+- 🔒 **Encryption**: bcrypt
+- 🔧 **Environment Variables Management**: dotenv
+- 🧪 **Testing**: Jest (with integration for environment variables using dotenv), ESLint
+- 🛠️ **Development Utilities**: nodemon, node-pg-migrate
+- 📝 **Language**: JavaScript
 
 ## Testing API
 
