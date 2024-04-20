@@ -1,0 +1,14 @@
+#Just for create and run postgress on docker
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "${PGPORT_TEST}:${PGPORT_TEST}"
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${PGDATABASE_TEST}
+      POSTGRES_USER: ${PGUSER_TEST}
+      POSTGRES_PASSWORD: ${PGPASSWORD_TEST}
