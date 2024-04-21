@@ -1,13 +1,18 @@
-#Just for create and run postgress on docker
 version: '3.9'
 
 services:
+  nodejs:
+    build: .
+    container_name: forum-api
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres # Mount the current directory into the container
   postgres:
     image: postgres:16-alpine
+    container_name: postgres
     ports:
       - "${PGPORT_TEST}:${PGPORT_TEST}"
-    volumes:
-      - ~/apps/postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${PGDATABASE_TEST}
       POSTGRES_USER: ${PGUSER_TEST}
