@@ -3,18 +3,12 @@ const ClientError = require('../../Commons/exceptions/ClientError');
 const DomainErrorTranslator = require('../../Commons/exceptions/DomainErrorTranslator');
 const users = require('../../Interfaces/http/api/users');
 const authentications = require('../../Interfaces/http/api/authentications');
-const pool = require('../database/postgres/pool'); // Import the database connection pool
 
 const createServer = async (container) => {
   const server = Hapi.server({
     host: process.env.HOST,
     port: process.env.PORT,
   });
-  
-  // Checking for DB connection
-  await pool.connect()
-    .then(() => console.log('Connected to database'))
-    .catch(err => console.error('Error connecting to database:', err));
 
   await server.register([
     {
