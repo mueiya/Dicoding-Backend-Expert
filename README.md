@@ -100,7 +100,7 @@ REFRESH_TOKEN_KEY=5078605e074a462b1460608fcbe0d0963c644402e04ad334455ff5a856cb43
 ACCCESS_TOKEN_AGE=3000
 ```
 
-⚠️ Replace the values with your desired configuration. Ensure that you have created the respective database and user in PostgreSQL manually.
+⚠️ Replace the values with your desired configuration. Ensure that you have created the respective database and user in PostgreSQL manually. Make sure you grant all database privilege and tranfer the ownership of that database to the PGUSER
 
 ### Setting Up Test Database
 
