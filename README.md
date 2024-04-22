@@ -100,7 +100,22 @@ REFRESH_TOKEN_KEY=5078605e074a462b1460608fcbe0d0963c644402e04ad334455ff5a856cb43
 ACCCESS_TOKEN_AGE=3000
 ```
 
-Replace the values with your desired configuration. Ensure that you have created the respective database and user in PostgreSQL manually.
+⚠️ Replace the values with your desired configuration. Ensure that you have created the respective database and user in PostgreSQL manually.
+
+### Setting Up Test Database
+
+To enable testing with Jest, create a config/database/test.json file with the following content:
+
+```json
+{
+  "user": "developer",
+  "password": "supersecretpassword",
+  "host": "localhost",
+  "port": 5432,
+  "database": "forumapi_test"
+}
+```
+⚠️ Replace the values with your actual database credentials for the test environment.
 
 ### Running Migrations
 
@@ -133,7 +148,9 @@ To run the program, follow these steps:
 
 By following these steps, you'll be able to set up the environment, run the migrations, and start the server for your project.
 
-Make sure to replace the placeholder values in the `.env` example with your actual database credentials and keys.
+⚠️ Make sure to replace the placeholder values in the `.env` example with your actual database credentials and keys.
+
+⚠️ When they the program run with `npm run start:dev`, it's not using the test database environment.
 
 ## Tech Stack Overview
 
