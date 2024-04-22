@@ -71,6 +71,49 @@
 - npm (Node Package Manager)
 - PostgreSQL
 
+### Setting Up Environment Variables
+
+Before running the program, make sure to set up the environment variables. Create a `.env` file in the root directory of your project and populate it with the desired variables, here's the example:
+
+```plaintext
+# HTTP SERVER
+HOST=localhost
+PORT=8000
+
+# POSTGRES
+PGHOST=localhost
+PGUSER=developer
+PGDATABASE=forumapi
+PGPASSWORD=supersecretpassword
+PGPORT=5432
+
+# POSTGRES TEST
+PGHOST_TEST=localhost
+PGUSER_TEST=developer
+PGDATABASE_TEST=forumapi_test
+PGPASSWORD_TEST=supersecretpassword
+PGPORT_TEST=5432
+
+# TOKENIZE
+ACCESS_TOKEN_KEY=8b7b4ef375716ab08b2a3951b29d52fc00b1c855f9d1a847229b8c5935bef56d9d271e76a9cf08e614300395c3b90ebe559cf968a0741b18c9505549394b2c70
+REFRESH_TOKEN_KEY=5078605e074a462b1460608fcbe0d0963c644402e04ad334455ff5a856cb43fd99825861dde02957d5e3184c90c532ca7d0249df20fe93d535632f3d11be7bad
+ACCCESS_TOKEN_AGE=3000
+```
+
+Replace the values with your desired configuration. Ensure that you have created the respective database and user in PostgreSQL manually.
+
+### Running Migrations
+
+Before starting the server, you need to run the database migrations. Use the following commands:
+
+```bash
+npm run migrate up
+```
+
+This command will run the migrations to set up the database schema.
+
+### Running the Server
+
 To run the program, follow these steps:
 
 1. Install dependencies:
@@ -87,6 +130,10 @@ To run the program, follow these steps:
    ```bash
    npm run start:dev
    ```
+
+By following these steps, you'll be able to set up the environment, run the migrations, and start the server for your project.
+
+Make sure to replace the placeholder values in the `.env` example with your actual database credentials and keys.
 
 ## Tech Stack Overview
 
