@@ -27,7 +27,9 @@ describe('PostThread', () => {
     };
 
     // Action and Assert
-    expect(() => new PostThread(payload)).toThrowError('POST_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
+    expect(() => new PostThread(payload)).toThrowError(
+      'POST_THREAD.NOT_CONTAIN_NEEDED_PROPERTY',
+    );
   });
 
   it('should throw an error when payload properties are not of expected type', () => {
@@ -39,6 +41,8 @@ describe('PostThread', () => {
     };
 
     // Action and Assert
-    expect(() => new PostThread(payload)).toThrowError('POST_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new PostThread(payload)).toThrowError(
+      'POST_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION',
+    );
   });
 });

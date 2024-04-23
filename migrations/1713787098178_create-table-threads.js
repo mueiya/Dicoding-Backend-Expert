@@ -25,7 +25,11 @@ exports.up = (pgm) => {
   });
 
   // Adding foreign key users(id) as owner
-  pgm.addConstraint('threads', 'fk_threads_users', 'FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE');
+  pgm.addConstraint(
+    'threads',
+    'fk_threads_users',
+    'FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE',
+  );
 };
 
 exports.down = (pgm) => {

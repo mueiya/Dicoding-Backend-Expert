@@ -32,13 +32,18 @@ describe('ThreadRepositoryPostgres', () => {
       });
 
       const fakeIdGenerator = () => 'stringThreaId'; // stub;
-      const threadRepository = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
+      const threadRepository = new ThreadRepositoryPostgres(
+        pool,
+        fakeIdGenerator,
+      );
 
       // Action
       await threadRepository.postThread(postThread);
 
       // Assert
-      const threads = await ThreadsTableTestHelper.findThreadById('thread-stringThreaId'); // Id Generator start with thread-
+      const threads = await ThreadsTableTestHelper.findThreadById(
+        'thread-stringThreaId',
+      ); // Id Generator start with thread-
       expect(threads).toHaveLength(1);
     });
 
@@ -58,17 +63,22 @@ describe('ThreadRepositoryPostgres', () => {
       });
 
       const fakeIdGenerator = () => 'stringThreaId'; // stub;
-      const threadRepository = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
+      const threadRepository = new ThreadRepositoryPostgres(
+        pool,
+        fakeIdGenerator,
+      );
 
       // Action
       const postedThread = await threadRepository.postThread(postThread);
 
       // Assert
-      expect(postedThread).toStrictEqual(new PostedThread({
-        id: 'thread-stringThreaId', // Id Generator start with thread-
-        title: 'stringTitle',
-        owner: 'stringOwnerId',
-      }));
+      expect(postedThread).toStrictEqual(
+        new PostedThread({
+          id: 'thread-stringThreaId', // Id Generator start with thread-
+          title: 'stringTitle',
+          owner: 'stringOwnerId',
+        }),
+      );
     });
   });
 });
