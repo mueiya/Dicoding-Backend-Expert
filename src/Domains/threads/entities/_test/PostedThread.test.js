@@ -4,10 +4,9 @@ describe('a PostedThread entities', () => {
     it('should throw error when payload did not contain needed property', () => {
         // Arrange
         const payload = {
-            title: 'string title',
-            body: 'string body',
-            owner: 'string owner',
             // Missing date property
+            title: 'stringTitle',
+            owner: 'stringOwnerId',
         };
 
         // Action and Assert
@@ -17,11 +16,9 @@ describe('a PostedThread entities', () => {
     it('should throw error when payload properties are not of expected type', () => {
         // Arrange
         const payload = {
-            id: '123',
-            title: 'string title',
-            body: 'string body',
-            owner: 'string owner',
-            date: new Date(), // Should be in ISO string format
+            id: {}, // Wrong data type
+            title: 'stringTitle',
+            owner: 'stringOwnerId',
         };
 
         // Action and Assert
@@ -31,21 +28,17 @@ describe('a PostedThread entities', () => {
     it('should create PostedThread object correctly', () => {
         // Arrange
         const payload = {
-            id: '123',
-            title: 'string title',
-            body: 'string body',
-            owner: 'string owner',
-            date: new Date().toISOString(), // ISO string format
+            id: 'stringThreadId',
+            title: 'stringTitle',
+            owner: 'stringOwnerId',
         };
 
         // Action
-        const { id, title, body, owner, date } = new PostedThread(payload);
+        const { id, title, owner } = new PostedThread(payload);
 
         // Assert
         expect(id).toEqual(payload.id);
         expect(title).toEqual(payload.title);
-        expect(body).toEqual(payload.body);
         expect(owner).toEqual(payload.owner);
-        expect(date).toEqual(payload.date);
     });
 });

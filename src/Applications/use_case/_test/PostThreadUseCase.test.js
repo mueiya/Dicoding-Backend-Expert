@@ -7,18 +7,15 @@ describe('PostThreadUseCase', () => {
     it('should orchestrating the add user action correctly', async () => {
         // Arrange
         const useCasePayload = {
-            title: 'string title',
-            body: 'string body',
-            owner: 'string owner',
-            date: new Date().toISOString(),
+            title: 'stringTitle',
+            body: 'stringBody',
+            owner: 'stringOwnerId',
         };
 
         const mockPostedThread = new PostedThread({
-            id: 'string id',
+            id: 'stringThreadId',
             title: useCasePayload.title,
-            body: useCasePayload.body,
             owner: useCasePayload.owner,
-            date: useCasePayload.date,
         });
 
         const mockThreadRepository = new ThreadRepository();
@@ -35,11 +32,9 @@ describe('PostThreadUseCase', () => {
 
         // Assert
         expect(postedThread).toStrictEqual(new PostedThread({
-            id: 'string id',
+            id: 'stringThreadId',
             title: useCasePayload.title,
-            body: useCasePayload.body,
             owner: useCasePayload.owner,
-            date: useCasePayload.date,
         }));
         expect(mockThreadRepository.postThread).toBeCalledWith(new PostThread({
             title: useCasePayload.title,
