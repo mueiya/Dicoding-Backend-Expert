@@ -33,7 +33,7 @@ describe('PostThread', () => {
   it('should throw an error when payload properties are not of expected type', () => {
     // Arrange
     const payload = {
-      title: 123, // Incorrect type
+      title: 1234, // Incorrect type
       body: 'stringBody',
       owner: 'stringOwnerId',
     };
