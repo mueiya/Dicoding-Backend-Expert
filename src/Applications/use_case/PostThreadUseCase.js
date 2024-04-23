@@ -6,8 +6,8 @@ class PostThreadUseCase {
     }
 
     async execute(useCasePayload) {
-        const postThread = new PostThread(useCasePayload);
-        return this._threadRepository.postThread(postThread);
+        const postThreadEntity = new PostThread(useCasePayload);
+        return this._threadRepository.postThread(postThreadEntity);
     }
 }
 
