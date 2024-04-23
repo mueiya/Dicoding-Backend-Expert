@@ -20,7 +20,8 @@ describe('PostThreadUseCase', () => {
 
     const mockThreadRepository = new ThreadRepository();
 
-    mockThreadRepository.postThread = jest.fn()
+    mockThreadRepository.postThread = jest
+      .fn()
       .mockImplementation(() => Promise.resolve(mockPostedThread));
 
     const postThreadUseCase = new PostThreadUseCase({
@@ -31,15 +32,19 @@ describe('PostThreadUseCase', () => {
     const postedThread = await postThreadUseCase.execute(useCasePayload);
 
     // Assert
-    expect(postedThread).toStrictEqual(new PostedThread({
-      id: 'stringThreadId',
-      title: useCasePayload.title,
-      owner: useCasePayload.owner,
-    }));
-    expect(mockThreadRepository.postThread).toBeCalledWith(new PostThread({
-      title: useCasePayload.title,
-      body: useCasePayload.body,
-      owner: useCasePayload.owner,
-    }));
+    expect(postedThread).toStrictEqual(
+      new PostedThread({
+        id: 'stringThreadId',
+        title: useCasePayload.title,
+        owner: useCasePayload.owner,
+      }),
+    );
+    expect(mockThreadRepository.postThread).toBeCalledWith(
+      new PostThread({
+        title: useCasePayload.title,
+        body: useCasePayload.body,
+        owner: useCasePayload.owner,
+      }),
+    );
   });
 });

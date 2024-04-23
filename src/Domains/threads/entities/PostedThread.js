@@ -14,7 +14,11 @@ class PostedThread {
       throw new Error('POSTED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 
-    if (typeof id !== 'string' || typeof title !== 'string' || typeof owner !== 'string') {
+    if (
+      typeof id !== 'string' ||
+      typeof title !== 'string' ||
+      typeof owner !== 'string'
+    ) {
       throw new Error('POSTED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
   }

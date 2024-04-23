@@ -16,7 +16,9 @@ class ThreadsHandler {
       owner: userId,
     };
 
-    const postThreadUseCase = this._container.getInstance(PostThreadUseCase.name);
+    const postThreadUseCase = this._container.getInstance(
+      PostThreadUseCase.name,
+    );
     const postedThread = await postThreadUseCase.execute(useCasePayload);
     const response = h.response({
       status: 'success',
