@@ -33,7 +33,7 @@ const createServer = async (container) => {
       sub: false,
       maxAgeSec: process.env.ACCESS_TOKEN_AGE,
     },
-    
+
     validate: (artifacts) => ({
       isValid: true,
       credentials: {
@@ -53,7 +53,7 @@ const createServer = async (container) => {
     },
     {
       plugin: threads,
-      options: {container},
+      options: { container },
     },
   ]);
 
