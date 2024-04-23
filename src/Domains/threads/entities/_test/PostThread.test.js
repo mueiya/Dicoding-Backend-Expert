@@ -22,8 +22,8 @@ describe('PostThread', () => {
         // Arrange
         const payload = {
             // Missing title property
-            body: 'string body',
-            owner: 'string owner',
+            body: 'stringBody',
+            owner: 'stringOwnerId',
         };
 
         // Action and Assert
@@ -34,8 +34,8 @@ describe('PostThread', () => {
         // Arrange
         const payload = {
             title: 123, // Incorrect type
-            body: 'string body',
-            owner: 'string owner',
+            body: 'stringBody',
+            owner: 'stringOwnerId',
         };
 
         // Action and Assert
