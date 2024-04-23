@@ -1,0 +1,26 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 12
+    },
+    "rules": {
+        "linebreak-style": ["error", "unix"], // Enforce LF line endings
+        "no-underscore-dangle": "off", // Disable the no-underscore-dangle rule
+        "class-methods-use-this": "off"
+    },
+    "overrides": [
+        {
+          "files": ["*.test.js"],
+          "rules": {
+            "no-undef": "off"
+          }
+        }
+      ]
+}

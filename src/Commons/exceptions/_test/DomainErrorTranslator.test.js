@@ -21,8 +21,6 @@ describe('DomainErrorTranslator', () => {
       .toStrictEqual(new InvariantError('tidak dapat membuat thread baru karena tipe data tidak sesuai'));
   });
 
-
-
   it('should return original error when error message is not needed to translate', () => {
     // Arrange
     const error = new Error('some_error_message');

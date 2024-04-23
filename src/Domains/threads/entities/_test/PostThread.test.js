@@ -1,44 +1,44 @@
 const PostThread = require('../PostThread');
 
 describe('PostThread', () => {
-    it('should create a PostThread object with valid payload', () => {
-        // Arrange
-        const payload = {
-            title: 'string title',
-            body: 'string body',
-            owner: 'string owner',
-        };
+  it('should create a PostThread object with valid payload', () => {
+    // Arrange
+    const payload = {
+      title: 'string title',
+      body: 'string body',
+      owner: 'string owner',
+    };
 
-        // Action
-        const postThread = new PostThread(payload);
+    // Action
+    const postThread = new PostThread(payload);
 
-        // Assert
-        expect(postThread.title).toEqual(payload.title);
-        expect(postThread.body).toEqual(payload.body);
-        expect(postThread.owner).toEqual(payload.owner);
-    });
+    // Assert
+    expect(postThread.title).toEqual(payload.title);
+    expect(postThread.body).toEqual(payload.body);
+    expect(postThread.owner).toEqual(payload.owner);
+  });
 
-    it('should throw an error when payload is missing a needed property', () => {
-        // Arrange
-        const payload = {
-            // Missing title property
-            body: 'stringBody',
-            owner: 'stringOwnerId',
-        };
+  it('should throw an error when payload is missing a needed property', () => {
+    // Arrange
+    const payload = {
+      // Missing title property
+      body: 'stringBody',
+      owner: 'stringOwnerId',
+    };
 
-        // Action and Assert
-        expect(() => new PostThread(payload)).toThrowError('POST_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
-    });
+    // Action and Assert
+    expect(() => new PostThread(payload)).toThrowError('POST_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
+  });
 
-    it('should throw an error when payload properties are not of expected type', () => {
-        // Arrange
-        const payload = {
-            title: 123, // Incorrect type
-            body: 'stringBody',
-            owner: 'stringOwnerId',
-        };
+  it('should throw an error when payload properties are not of expected type', () => {
+    // Arrange
+    const payload = {
+      title: 123, // Incorrect type
+      body: 'stringBody',
+      owner: 'stringOwnerId',
+    };
 
-        // Action and Assert
-        expect(() => new PostThread(payload)).toThrowError('POST_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
-    });
+    // Action and Assert
+    expect(() => new PostThread(payload)).toThrowError('POST_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+  });
 });
