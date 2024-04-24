@@ -5,6 +5,7 @@ const AuthenticationsMockHelper = require('../../../../tests/AuthenticationsMock
 const pool = require('../../database/postgres/pool');
 const createServer = require('../createServer');
 const container = require('../../container');
+const CommentMockHelper = require('../../../../tests/CommentsMockHelper');
 
 describe('/threads/{threadId}/comments endpoint', () => {
   afterAll(async () => {
@@ -172,6 +173,99 @@ describe('/threads/{threadId}/comments endpoint', () => {
         expect(responseJson.status).toEqual('success');
         expect(responseJson.message).toEqual('Comment posted successfully');
         expect(responseJson.data.addedComment).toBeDefined();
+      });
+    });
+  });
+
+  describe('when DELETE /threads/{threadId}/comments/{commentId}', () => {
+    describe('AuthorizationError', () => {
+      it('should respond with 401 and throw AuthorizationError when not given authentication', async () => {
+        // Arrange
+        const server = await createServer(container);
+        const authentication =
+          await AuthenticationsMockHelper.mockAuthDummy(server);
+        const threadId = await ThreadsMockHelper.mockThreadDummy(
+          server,
+          authentication,
+        );
+        const commentId = await CommentMockHelper.mockCommentDummy(
+          server,
+          authentication,
+          threadId,
+        );
+
+        // Action
+        const response = await server.inject({
+          method: 'DELETE',
+          url: `/threads/${threadId}/comments/${commentId}`,
+          headers: {},
+        });
+
+        // Assert
+        const responseJson = JSON.parse(response.payload);
+        expect(response.statusCode).toEqual(401);
+        expect(responseJson.error).toEqual('Unauthorized');
+        expect(responseJson.message).toEqual('Missing authentication');
+      });
+    });
+
+    describe('Server Error: 404 (Thread Not Found)', () => {
+      it('should respond with 404 when the thread with the given threadId is not found', async () => {
+        // Arrange
+        const server = await createServer(container);
+        const authentication =
+          await AuthenticationsMockHelper.mockAuthDummy(server);
+        const threadId = await ThreadsMockHelper.mockThreadDummy(
+          server,
+          authentication,
+        );
+        const commentId = await CommentMockHelper.mockCommentDummy(
+          server,
+          authentication,
+          threadId,
+        );
+
+        // Action
+        const response = await server.inject({
+          method: 'DELETE',
+          url: `/threads/wrongId/comments/${commentId}`,
+          headers: {
+            Authorization: `Bearer ${authentication.data.accessToken}`,
+          },
+        });
+
+        // Assert
+        expect(response.statusCode).toEqual(404);
+      });
+    });
+
+    describe('Successful Deletion: 200', () => {
+      it('should respond with 200 and delete the comment', async () => {
+        // Arrange
+        const server = await createServer(container);
+        const authentication =
+          await AuthenticationsMockHelper.mockAuthDummy(server);
+        const threadId = await ThreadsMockHelper.mockThreadDummy(
+          server,
+          authentication,
+        );
+        const commentId = await CommentMockHelper.mockCommentDummy(
+          server,
+          authentication,
+          threadId,
+        );
+
+        // Action
+        const response = await server.inject({
+          method: 'DELETE',
+          url: `/threads/${threadId}/comments/${commentId}`,
+          headers: {
+            Authorization: `Bearer ${authentication.data.accessToken}`,
+          },
+        });
+
+        // Assert
+        expect(response.statusCode).toEqual(200);
       });
     });
   });

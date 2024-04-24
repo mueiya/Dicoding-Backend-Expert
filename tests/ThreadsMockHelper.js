@@ -1,6 +1,6 @@
+/* istanbul ignore file */
 const pool = require('../src/Infrastructures/database/postgres/pool');
 
-/* istanbul ignore file */
 const ThreadsMockHelper = {
   async mockThreadDummy(server, auth) {
     const threadDummy = {
