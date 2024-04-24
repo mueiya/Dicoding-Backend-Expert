@@ -64,25 +64,27 @@ describe('PostCommentUseCase', () => {
       useCasePayload.thread,
     );
     expect(result).toEqual({
-      id: 'stringThreadId',
-      title: 'stringThreadTitle',
-      body: 'stringThreadBody',
-      username: 'stringThreadUsername',
-      date: '2024-04-25T12:00:00Z',
-      comments: [
-        {
-          id: 'stringCommentId1',
-          content: 'stringCommentContent1',
-          username: 'stringCommentUsername1',
-          date: '2024-04-25T12:00:00Z', // ISO format string
-        },
-        {
-          id: 'stringCommentId2',
-          content: 'stringCommentContent2',
-          username: 'stringCommentUsername2',
-          date: '2024-04-26T12:00:00Z', // ISO format string
-        },
-      ],
+      thread: {
+        id: 'stringThreadId',
+        title: 'stringThreadTitle',
+        body: 'stringThreadBody',
+        username: 'stringThreadUsername',
+        date: '2024-04-25T12:00:00Z',
+        comments: [
+          {
+            id: 'stringCommentId1',
+            content: 'stringCommentContent1',
+            username: 'stringCommentUsername1',
+            date: '2024-04-25T12:00:00Z', // ISO format string
+          },
+          {
+            id: 'stringCommentId2',
+            content: 'stringCommentContent2',
+            username: 'stringCommentUsername2',
+            date: '2024-04-26T12:00:00Z', // ISO format string
+          },
+        ],
+      },
     });
   });
 });
