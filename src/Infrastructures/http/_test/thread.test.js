@@ -48,7 +48,6 @@ describe('/threads endpoint', () => {
         const requestPayload = {
           title: 123, // Wrong data type
           body: 'threadBody',
-          owner: 'stringOwnerId', // Correct data type
         };
 
         const server = await createServer(container);
@@ -78,7 +77,6 @@ describe('/threads endpoint', () => {
         // Arrange
         const requestPayload = {
           body: 'threadBody',
-          owner: 'stringOwnerId', // Correct data type
         };
 
         const server = await createServer(container);
@@ -111,7 +109,6 @@ describe('/threads endpoint', () => {
         const requestPayload = {
           title: 'threadTitle',
           body: 'threadBody',
-          owner: 'stringOwnerId', // Correct data type
         };
 
         const server = await createServer(container);
