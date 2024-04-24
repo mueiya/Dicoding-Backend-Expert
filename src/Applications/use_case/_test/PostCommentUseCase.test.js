@@ -1,6 +1,7 @@
 const PostedComment = require('../../../Domains/comments/entities/PostedComment');
 const PostComment = require('../../../Domains/comments/entities/PostComment');
 const CommentRepository = require('../../../Domains/comments/CommentRepository');
+const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
 const PostCommentUseCase = require('../PostCommentUseCase');
 
 describe('PostCommentUseCase', () => {
@@ -20,13 +21,19 @@ describe('PostCommentUseCase', () => {
     });
 
     const mockCommentRepository = new CommentRepository();
+    const mockThreadRepository = new ThreadRepository();
 
     mockCommentRepository.postComment = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockPostedComment));
 
+    mockThreadRepository.verifyThreadAvailability = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+
     const postCommentUseCase = new PostCommentUseCase({
       commentRepository: mockCommentRepository,
+      threadRepository: mockThreadRepository,
     });
 
     // Action
