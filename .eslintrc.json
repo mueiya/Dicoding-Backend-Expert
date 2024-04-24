@@ -13,7 +13,8 @@
     "linebreak-style": ["error", "unix"],
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-plusplus": "off"
   },
   "overrides": [
     {
