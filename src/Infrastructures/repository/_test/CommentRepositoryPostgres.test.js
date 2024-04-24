@@ -223,7 +223,7 @@ describe('CommentRepositoryPostgres', () => {
       const comments = await CommentsTableTestHelper.findCommentById(
         'comment-stringCommentId',
       );
-      expect(comments).toHaveLength(0); // Comment should be deleted
+      expect(comments[0].deleted).toEqual(true); // Comment should be deleted
     });
 
     it('should not throw error if comment does not exist', async () => {
