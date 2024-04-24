@@ -236,4 +236,72 @@ describe('CommentRepositoryPostgres', () => {
       ).rejects.toThrow(NotFoundError);
     });
   });
+
+  describe('getCommentByThreadId', () => {
+    it('should return an array of comments by thread ID', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringUserId',
+        username: 'stringUsername',
+      });
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-stringThreadId',
+        owner: 'user-stringUserId',
+      });
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-stringCommentId1',
+        thread: 'thread-stringThreadId',
+        owner: 'user-stringUserId', // Comment owned by user
+      });
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-stringCommentId2',
+        thread: 'thread-stringThreadId',
+        owner: 'user-stringUserId', // Comment owned by user
+      });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action
+      const comments = await commentRepositoryPostgres.getCommentByThreadId(
+        'thread-stringThreadId',
+      );
+
+      // Assert
+      expect(comments.comments).toHaveLength(2);
+      const comment1 = comments.comments[0];
+      const comment2 = comments.comments[1];
+      // Assert comment1
+      expect(comment1.id).toEqual('comment-stringCommentId1');
+      expect(comment1.thread).toEqual('thread-stringThreadId');
+      expect(comment1.content).toEqual('stringContent');
+      expect(comment1.username).toEqual('stringUsername');
+      // Assert comment2
+      expect(comment2.id).toEqual('comment-stringCommentId2');
+      expect(comment2.thread).toEqual('thread-stringThreadId');
+      expect(comment2.content).toEqual('stringContent');
+      expect(comment2.username).toEqual('stringUsername');
+    });
+
+    it('should return an empty array if no comments found for the thread ID', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringUserId',
+        username: 'stringUsername',
+      });
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-stringThreadId',
+        owner: 'user-stringUserId',
+      });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action
+      const comments = await commentRepositoryPostgres.getCommentByThreadId(
+        'thread-stringThreadId',
+      );
+
+      // Assert
+      expect(comments.comments).toHaveLength(0);
+    });
+  });
 });
