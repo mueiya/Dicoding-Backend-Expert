@@ -8,12 +8,14 @@ describe('PostCommentUseCase', () => {
     // Arrange
     const useCasePayload = {
       content: 'stringContent',
+      thread: 'stringThreadId',
       owner: 'stringOwnerId',
     };
 
     const mockPostedComment = new PostedComment({
       id: 'stringCommentId',
       content: useCasePayload.content,
+      thread: useCasePayload.thread,
       owner: useCasePayload.owner,
     });
 
@@ -35,12 +37,14 @@ describe('PostCommentUseCase', () => {
       new PostedComment({
         id: 'stringCommentId',
         content: useCasePayload.content,
+        thread: useCasePayload.thread,
         owner: useCasePayload.owner,
       }),
     );
     expect(mockCommentRepository.postComment).toBeCalledWith(
       new PostComment({
         content: useCasePayload.content,
+        thread: useCasePayload.thread,
         owner: useCasePayload.owner,
       }),
     );

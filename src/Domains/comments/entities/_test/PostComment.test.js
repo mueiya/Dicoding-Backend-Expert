@@ -5,6 +5,7 @@ describe('PostComment', () => {
     // Arrange
     const payload = {
       content: 'stringContent',
+      thread: 'stringThreadId',
       owner: 'stringOwnerId',
     };
 
@@ -13,6 +14,7 @@ describe('PostComment', () => {
 
     // Assert
     expect(postComment.content).toEqual(payload.content);
+    expect(postComment.thread).toEqual(payload.thread);
     expect(postComment.owner).toEqual(payload.owner);
   });
 
@@ -21,6 +23,7 @@ describe('PostComment', () => {
     const payload = {
       // Missing content property
       owner: 'stringOwnerId',
+      thread: 'stringThreadId',
     };
 
     // Action and Assert
@@ -33,6 +36,7 @@ describe('PostComment', () => {
     // Arrange
     const payload = {
       content: 1234, // Incorrect type
+      thread: 'stringThreadId',
       owner: 'stringOwnerId',
     };
 
