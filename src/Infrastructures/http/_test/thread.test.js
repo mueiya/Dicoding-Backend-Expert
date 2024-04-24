@@ -1,5 +1,7 @@
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
+const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
+
 const AuthenticationsMockHelper = require('../../../../tests/AuthenticationsMockHelper');
 const pool = require('../../database/postgres/pool');
 const createServer = require('../createServer');
@@ -13,6 +15,7 @@ describe('/threads endpoint', () => {
   afterEach(async () => {
     await UsersTableTestHelper.cleanTable();
     await ThreadsTableTestHelper.cleanTable();
+    await CommentsTableTestHelper.cleanTable();
   });
 
   describe('when POST /threads', () => {
@@ -131,6 +134,100 @@ describe('/threads endpoint', () => {
         expect(responseJson.status).toEqual('success');
         expect(responseJson.message).toEqual('Thread posted successfully');
         expect(responseJson.data.addedThread).toBeDefined();
+      });
+    });
+  });
+  describe('GET /threads/{threadId}', () => {
+    describe('Successful retrieval: 200', () => {
+      it('should respond with 200 and retrieve the thread along with its comments', async () => {
+        // Arrange
+        // Create a mock thread and comments in the database
+        const threadId = 'thread-stringThreadId';
+        const mockThreadPayload = {
+          id: threadId,
+          title: 'stringThreadTitle',
+          body: 'stringThreadBody',
+          owner: 'user-stringUserId1',
+        };
+        const mockCommentsPayload = [
+          {
+            id: 'comment-stringCommentId1',
+            content: 'stringCommentContent1',
+            owner: 'user-stringUserId1',
+          },
+          {
+            id: 'comment-stringCommentId2',
+            content: 'stringCommentContent2',
+            owner: 'user-stringUserId2',
+          },
+        ];
+        const mockUserPayload = [
+          {
+            id: 'user-stringUserId1',
+            username: 'stringUsername1',
+          },
+          {
+            id: 'user-stringUserId2',
+            username: 'stringUsername2',
+          },
+        ];
+
+        // Add user to database
+        await UsersTableTestHelper.addUser(mockUserPayload[0]);
+        await UsersTableTestHelper.addUser(mockUserPayload[1]);
+
+        // Add thread to database
+        await ThreadsTableTestHelper.addThread(mockThreadPayload);
+
+        // Add comment to database
+        await CommentsTableTestHelper.addComment({
+          thread: threadId,
+          ...mockCommentsPayload[0],
+        });
+        await CommentsTableTestHelper.addComment({
+          thread: threadId,
+          ...mockCommentsPayload[1],
+        });
+
+        const server = await createServer(container);
+
+        // Delete one of the comment
+        await CommentsTableTestHelper.deleteComment(mockCommentsPayload[1].id);
+
+        // Action
+        const response = await server.inject({
+          method: 'GET',
+          url: `/threads/${threadId}`,
+        });
+
+        // Assert
+        const responseJson = JSON.parse(response.payload);
+        expect(response.statusCode).toEqual(200);
+        expect(responseJson.status).toEqual('success');
+        expect(responseJson.data).toBeDefined();
+
+        // Assert thread properties
+        const { thread } = responseJson.data;
+        expect(thread).toBeDefined();
+        expect(thread.id).toEqual(mockThreadPayload.id);
+        expect(thread.title).toEqual(mockThreadPayload.title);
+        expect(thread.body).toEqual(mockThreadPayload.body);
+        expect(thread.username).toEqual(mockUserPayload[0].username);
+        expect(thread.date).toBeDefined();
+
+        // Assert comments
+        expect(thread.comments).toBeDefined();
+        expect(thread.comments.length).toEqual(mockCommentsPayload.length);
+        for (let i = 0; i < mockCommentsPayload.length; i++) {
+          const mockCommentPayload = mockCommentsPayload[i];
+          const comment = thread.comments[i];
+          expect(comment.id).toEqual(mockCommentPayload.id);
+          expect(comment.content).toEqual(
+            i === 1 ? '**komentar telah dihapus**' : mockCommentPayload.content,
+          );
+          expect(comment.username).toEqual(mockUserPayload[i].username);
+          expect(comment.date).toBeDefined();
+        }
       });
     });
   });

@@ -26,6 +26,18 @@ const ThreadsTableTestHelper = {
     return result.rows;
   },
 
+  async deleteComment(id) {
+    const query = {
+      text: `
+        UPDATE comments
+        SET deleted = TRUE
+        WHERE id = $1`,
+      values: [id],
+    };
+
+    await pool.query(query);
+  },
+
   async cleanTable() {
     await pool.query('DELETE FROM comments WHERE 1=1');
   },

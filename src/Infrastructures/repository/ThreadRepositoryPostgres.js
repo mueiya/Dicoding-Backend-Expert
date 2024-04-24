@@ -1,6 +1,7 @@
 const ThreadRepository = require('../../Domains/threads/ThreadRepository');
 const PostedThread = require('../../Domains/threads/entities/PostedThread');
 const NotFoundError = require('../../Commons/exceptions/NotFoundError');
+const GetThread = require('../../Domains/threads/entities/GetThread');
 
 class ThreadRepositoryPostgres extends ThreadRepository {
   constructor(pool, idGenerator) {
@@ -33,6 +34,31 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     if (!result.rowCount) {
       throw new NotFoundError(`thread with id = ${id} is not found`);
     }
+  }
+
+  async getThreadById(id) {
+    // Convert the threads.date column to a string in ISO 8601 format
+    const query = {
+      text: `
+      SELECT 
+        threads.id, 
+        threads.title, 
+        threads.body, 
+        to_char(threads.date, 'YYYY-MM-DD"T"HH24:MI:SS') AS date, 
+        users.username
+      FROM threads
+      LEFT JOIN users ON threads.owner = users.id
+      WHERE threads.id = $1
+      `,
+      values: [id],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (!result.rowCount) {
+      throw new NotFoundError(`thread with id: ${id} is not found`);
+    }
+    return new GetThread(result.rows[0]);
   }
 }
 

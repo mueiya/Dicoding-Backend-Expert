@@ -63,6 +63,21 @@ DomainErrorTranslator._directories = {
   'COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED': new InvariantError(
     'metode belum diimplementasikan di repository comment',
   ),
+  'GET_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
+    'tidak dapat mengambil thread karena properti yang dibutuhkan tidak ada',
+  ),
+  'GET_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+    'tidak dapat mengambil thread karena tipe data tidak sesuai',
+  ),
+  'GET_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
+    'tidak dapat mengambil komentar karena properti yang dibutuhkan tidak ada',
+  ),
+  'GET_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+    'tidak dapat mengambil komentar karena tipe data tidak sesuai',
+  ),
+  'GET_COMMENT.NOT_AN_ARRAY_DATA_TYPE': new InvariantError(
+    'tidak dapat mengambil komentar karena data yang diterima bukanlah array',
+  ),
 };
 
 module.exports = DomainErrorTranslator;

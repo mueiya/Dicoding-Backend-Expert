@@ -111,6 +111,51 @@ describe('DomainErrorTranslator', () => {
         'tidak dapat membuat komentar baru karena tipe data tidak sesuai',
       ),
     );
+    expect(
+      DomainErrorTranslator.translate(
+        new Error('GET_THREAD.NOT_CONTAIN_NEEDED_PROPERTY'),
+      ),
+    ).toStrictEqual(
+      new InvariantError(
+        'tidak dapat mengambil thread karena properti yang dibutuhkan tidak ada',
+      ),
+    );
+    expect(
+      DomainErrorTranslator.translate(
+        new Error('GET_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION'),
+      ),
+    ).toStrictEqual(
+      new InvariantError(
+        'tidak dapat mengambil thread karena tipe data tidak sesuai',
+      ),
+    );
+    expect(
+      DomainErrorTranslator.translate(
+        new Error('GET_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY'),
+      ),
+    ).toStrictEqual(
+      new InvariantError(
+        'tidak dapat mengambil komentar karena properti yang dibutuhkan tidak ada',
+      ),
+    );
+    expect(
+      DomainErrorTranslator.translate(
+        new Error('GET_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION'),
+      ),
+    ).toStrictEqual(
+      new InvariantError(
+        'tidak dapat mengambil komentar karena tipe data tidak sesuai',
+      ),
+    );
+    expect(
+      DomainErrorTranslator.translate(
+        new Error('GET_COMMENT.NOT_AN_ARRAY_DATA_TYPE'),
+      ),
+    ).toStrictEqual(
+      new InvariantError(
+        'tidak dapat mengambil komentar karena data yang diterima bukanlah array',
+      ),
+    );
   });
 
   it('should return original error when error message is not needed to translate', () => {
