@@ -27,7 +27,7 @@ class CommentHandler {
       status: 'success',
       message: 'Comment posted successfully',
       data: {
-        addedCommment: postedComment,
+        addedComment: postedComment,
       },
     });
     response.code(201);
