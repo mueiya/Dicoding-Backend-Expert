@@ -2,6 +2,7 @@ const NotFoundError = require('../../Commons/exceptions/NotFoundError');
 const AuthorizationError = require('../../Commons/exceptions/AuthorizationError');
 const CommentRepository = require('../../Domains/comments/CommentRepository');
 const PostedComment = require('../../Domains/comments/entities/PostedComment');
+const GetComment = require('../../Domains/comments/entities/GetComment');
 
 class CommentRepositoryPostgres extends CommentRepository {
   constructor(pool, idGenerator) {
@@ -51,8 +52,12 @@ class CommentRepositoryPostgres extends CommentRepository {
   }
 
   async deleteCommentById(id) {
+    // Soft Deleted
     const query = {
-      text: 'DELETE FROM comments WHERE id = $1',
+      text: `
+        UPDATE comments
+        SET deleted = TRUE
+        WHERE id = $1`,
       values: [id],
     };
 
@@ -60,6 +65,29 @@ class CommentRepositoryPostgres extends CommentRepository {
     if (!result.rowCount) {
       throw new NotFoundError(`comment with id: ${id} not found`);
     }
+  }
+
+  async getCommentByThreadId(id) {
+    // Convert the comments.date column to a string in ISO 8601 format
+    const query = {
+      text: `
+      SELECT 
+        comments.id, 
+        users.username,
+        to_char(comments.date, 'YYYY-MM-DD"T"HH24:MI:SS') AS date,
+        comments.deleted,
+        comments.thread,
+        comments.content
+      FROM comments
+      INNER JOIN users ON comments.owner = users.id
+      WHERE thread = $1
+      ORDER BY comments.date ASC
+      `,
+      values: [id],
+    };
+
+    const result = await this._pool.query(query);
+    return new GetComment(result.rows);
   }
 }
 
