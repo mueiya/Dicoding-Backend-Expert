@@ -1,5 +1,6 @@
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
+const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
 const PostThread = require('../../../Domains/threads/entities/PostThread');
 const PostedThread = require('../../../Domains/threads/entities/PostedThread');
 const pool = require('../../database/postgres/pool');
@@ -79,6 +80,31 @@ describe('ThreadRepositoryPostgres', () => {
           owner: 'stringOwnerId',
         }),
       );
+    });
+  });
+  describe('verifyThreadAvailability Function', () => {
+    it('should resolve and throw error when not found', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringUserId',
+      });
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-stringThreaId',
+        owner: 'user-stringUserId',
+      });
+
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
+
+      // Action and Assert
+      await expect(
+        threadRepositoryPostgres.verifyThreadAvailability('thread-'),
+      ).rejects.toThrowError(NotFoundError);
+
+      await expect(
+        threadRepositoryPostgres.verifyThreadAvailability(
+          'thread-stringThreaId',
+        ),
+      ).resolves;
     });
   });
 });
