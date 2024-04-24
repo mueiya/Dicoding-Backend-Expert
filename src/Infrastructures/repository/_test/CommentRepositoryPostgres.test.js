@@ -5,11 +5,14 @@ const PostComment = require('../../../Domains/comments/entities/PostComment');
 const PostedComment = require('../../../Domains/comments/entities/PostedComment');
 const pool = require('../../database/postgres/pool');
 const CommentRepositoryPostgres = require('../CommentRepositoryPostgres');
+const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
+const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError');
 
 describe('CommentRepositoryPostgres', () => {
   afterEach(async () => {
     await CommentsTableTestHelper.cleanTable();
     await UsersTableTestHelper.cleanTable();
+    await ThreadsTableTestHelper.cleanTable();
   });
 
   afterAll(async () => {
@@ -94,6 +97,143 @@ describe('CommentRepositoryPostgres', () => {
           owner: 'stringOwnerId',
         }),
       );
+    });
+  });
+
+  describe('verivyCommentAvailability', () => {
+    it('should resolve and throw error when comment is not found', async () => {
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringUserId',
+        username: 'stringUsername',
+      }); // Thread User
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringCommentUserId',
+        username: 'stringCommentUsername',
+      }); // Comment User
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-stringThreadId',
+        owner: 'user-stringUserId',
+      });
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-stringCommentId',
+        thread: 'thread-stringThreadId',
+        owner: 'user-stringCommentUserId',
+      });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action and Assert
+      await expect(
+        commentRepositoryPostgres.verifyCommentAvailability(
+          'comment-',
+          'thread-stringThreadId',
+        ),
+      ).rejects.toThrow(NotFoundError);
+
+      await expect(
+        commentRepositoryPostgres.verifyCommentAvailability(
+          'comment-stringCommentId',
+          'thread-stringThreadId',
+        ),
+      ).resolves;
+    });
+  });
+
+  describe('verifyCommentOwner', () => {
+    it('should resolve when comment owner matches', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringUserId',
+        username: 'stringUsername',
+      });
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-stringThreadId',
+        owner: 'user-stringUserId',
+      });
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-stringCommentId',
+        thread: 'thread-stringThreadId',
+        owner: 'user-stringUserId', // Comment owned by user
+      });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action and Assert
+      await expect(
+        commentRepositoryPostgres.verifyCommentOwner(
+          'comment-stringCommentId',
+          'user-stringUserId', // Same owner as in the comment
+        ),
+      ).resolves;
+    });
+
+    it('should reject when comment owner does not match', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringUserId',
+        username: 'stringUsername',
+      });
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-stringThreadId',
+        owner: 'user-stringUserId',
+      });
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-stringCommentId',
+        thread: 'thread-stringThreadId',
+        owner: 'user-stringUserId', // Comment owned by user
+      });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action and Assert
+      await expect(
+        commentRepositoryPostgres.verifyCommentOwner(
+          'comment-stringCommentId',
+          'different-user-id', // Different owner than in the comment
+        ),
+      ).rejects.toThrow(AuthorizationError);
+    });
+  });
+
+  describe('deleteCommentById', () => {
+    it('should delete the comment by ID', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringUserId',
+        username: 'stringUsername',
+      });
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-stringThreadId',
+        owner: 'user-stringUserId',
+      });
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-stringCommentId',
+        thread: 'thread-stringThreadId',
+        owner: 'user-stringUserId', // Comment owned by user
+      });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action
+      await commentRepositoryPostgres.deleteCommentById(
+        'comment-stringCommentId',
+      );
+
+      // Assert
+      const comments = await CommentsTableTestHelper.findCommentById(
+        'comment-stringCommentId',
+      );
+      expect(comments).toHaveLength(0); // Comment should be deleted
+    });
+
+    it('should not throw error if comment does not exist', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action and Assert
+      await expect(
+        commentRepositoryPostgres.deleteCommentById('non-existing-comment-id'),
+      ).rejects.toThrow(NotFoundError);
     });
   });
 });
