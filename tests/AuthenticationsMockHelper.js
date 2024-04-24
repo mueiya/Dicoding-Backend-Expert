@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 const pool = require('../src/Infrastructures/database/postgres/pool');
 
-const ServerTestHelper = {
+const AuthenticationsMockHelper = {
   async mockAuthDummy(server) {
     const userDummy = {
       username: 'userDummy',
@@ -38,4 +38,4 @@ const ServerTestHelper = {
   },
 };
 
-module.exports = ServerTestHelper;
+module.exports = AuthenticationsMockHelper;
