@@ -17,6 +17,11 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       notNull: true,
     },
+    deleted: {
+      type: 'BOOLEAN',
+      notNull: true,
+      default: 'false',
+    },
     date: {
       type: 'TIMESTAMP',
       notNull: true,
