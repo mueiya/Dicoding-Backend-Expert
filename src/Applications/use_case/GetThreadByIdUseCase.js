@@ -14,17 +14,19 @@ class GetThreadById {
 
     // Extract relevant properties from threadResult
     const remappedThread = {
-      id: threadResult.id,
-      title: threadResult.title,
-      body: threadResult.body,
-      username: threadResult.username,
-      date: threadResult.date,
-      comments: commentsResult.comments.map((comment) => ({
-        id: comment.id,
-        content: comment.content,
-        username: comment.username,
-        date: comment.date,
-      })),
+      thread: {
+        id: threadResult.id,
+        title: threadResult.title,
+        body: threadResult.body,
+        username: threadResult.username,
+        date: threadResult.date,
+        comments: commentsResult.comments.map((comment) => ({
+          id: comment.id,
+          content: comment.content,
+          username: comment.username,
+          date: comment.date,
+        })),
+      },
     };
 
     return remappedThread;
