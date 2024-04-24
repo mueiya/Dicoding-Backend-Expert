@@ -1,5 +1,6 @@
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
+const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
 const PostThread = require('../../../Domains/threads/entities/PostThread');
 const PostedThread = require('../../../Domains/threads/entities/PostedThread');
 const pool = require('../../database/postgres/pool');
@@ -32,13 +33,18 @@ describe('ThreadRepositoryPostgres', () => {
       });
 
       const fakeIdGenerator = () => 'stringThreaId'; // stub;
-      const threadRepository = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
+      const threadRepository = new ThreadRepositoryPostgres(
+        pool,
+        fakeIdGenerator,
+      );
 
       // Action
       await threadRepository.postThread(postThread);
 
       // Assert
-      const threads = await ThreadsTableTestHelper.findThreadById('thread-stringThreaId'); // Id Generator start with thread-
+      const threads = await ThreadsTableTestHelper.findThreadById(
+        'thread-stringThreaId',
+      ); // Id Generator start with thread-
       expect(threads).toHaveLength(1);
     });
 
@@ -58,17 +64,47 @@ describe('ThreadRepositoryPostgres', () => {
       });
 
       const fakeIdGenerator = () => 'stringThreaId'; // stub;
-      const threadRepository = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
+      const threadRepository = new ThreadRepositoryPostgres(
+        pool,
+        fakeIdGenerator,
+      );
 
       // Action
       const postedThread = await threadRepository.postThread(postThread);
 
       // Assert
-      expect(postedThread).toStrictEqual(new PostedThread({
-        id: 'thread-stringThreaId', // Id Generator start with thread-
-        title: 'stringTitle',
-        owner: 'stringOwnerId',
-      }));
+      expect(postedThread).toStrictEqual(
+        new PostedThread({
+          id: 'thread-stringThreaId', // Id Generator start with thread-
+          title: 'stringTitle',
+          owner: 'stringOwnerId',
+        }),
+      );
+    });
+  });
+  describe('verifyThreadAvailability Function', () => {
+    it('should resolve and throw error when not found', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringUserId',
+      });
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-stringThreaId',
+        owner: 'user-stringUserId',
+      });
+
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
+
+      // Action and Assert
+      await expect(
+        threadRepositoryPostgres.verifyThreadAvailability('thread-'),
+      ).rejects.toThrowError(NotFoundError);
+
+      await expect(
+        threadRepositoryPostgres.verifyThreadAvailability(
+          'thread-stringThreaId',
+        ),
+      ).resolves;
     });
   });
 });

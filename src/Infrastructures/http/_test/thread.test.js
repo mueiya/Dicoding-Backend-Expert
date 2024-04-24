@@ -48,11 +48,11 @@ describe('/threads endpoint', () => {
         const requestPayload = {
           title: 123, // Wrong data type
           body: 'threadBody',
-          owner: 'stringOwnerId', // Correct data type
         };
 
         const server = await createServer(container);
-        const authentication = await AuthenticationsMockHelper.mockAuthDummy(server);
+        const authentication =
+          await AuthenticationsMockHelper.mockAuthDummy(server);
 
         // Action
         const response = await server.inject({
@@ -68,18 +68,20 @@ describe('/threads endpoint', () => {
         const responseJson = JSON.parse(response.payload);
         expect(response.statusCode).toEqual(400);
         expect(responseJson.status).toEqual('fail');
-        expect(responseJson.message).toEqual('tidak dapat membuat thread baru karena tipe data tidak sesuai');
+        expect(responseJson.message).toEqual(
+          'tidak dapat membuat thread baru karena tipe data tidak sesuai',
+        );
       });
 
       it('should respond with 400 and throw ClientError when payload is missing required properties', async () => {
         // Arrange
         const requestPayload = {
           body: 'threadBody',
-          owner: 'stringOwnerId', // Correct data type
         };
 
         const server = await createServer(container);
-        const authentication = await AuthenticationsMockHelper.mockAuthDummy(server);
+        const authentication =
+          await AuthenticationsMockHelper.mockAuthDummy(server);
 
         // Action
         const response = await server.inject({
@@ -95,7 +97,9 @@ describe('/threads endpoint', () => {
         const responseJson = JSON.parse(response.payload);
         expect(response.statusCode).toEqual(400);
         expect(responseJson.status).toEqual('fail');
-        expect(responseJson.message).toEqual('tidak dapat membuat thread baru karena properti yang dibutuhkan tidak ada');
+        expect(responseJson.message).toEqual(
+          'tidak dapat membuat thread baru karena properti yang dibutuhkan tidak ada',
+        );
       });
     });
 
@@ -105,11 +109,11 @@ describe('/threads endpoint', () => {
         const requestPayload = {
           title: 'threadTitle',
           body: 'threadBody',
-          owner: 'stringOwnerId', // Correct data type
         };
 
         const server = await createServer(container);
-        const authentication = await AuthenticationsMockHelper.mockAuthDummy(server);
+        const authentication =
+          await AuthenticationsMockHelper.mockAuthDummy(server);
 
         // Action
         const response = await server.inject({

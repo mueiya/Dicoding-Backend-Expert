@@ -27,7 +27,9 @@ describe('a PostedThread entities', () => {
     };
 
     // Action and Assert
-    expect(() => new PostedThread(payload)).toThrowError('POSTED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
+    expect(() => new PostedThread(payload)).toThrowError(
+      'POSTED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY',
+    );
   });
 
   it('should throw error when payload properties are not of expected type', () => {
@@ -39,6 +41,8 @@ describe('a PostedThread entities', () => {
     };
 
     // Action and Assert
-    expect(() => new PostedThread(payload)).toThrowError('POSTED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new PostedThread(payload)).toThrowError(
+      'POSTED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION',
+    );
   });
 });
