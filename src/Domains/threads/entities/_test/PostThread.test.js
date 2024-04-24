@@ -4,9 +4,9 @@ describe('PostThread', () => {
   it('should create a PostThread object with valid payload', () => {
     // Arrange
     const payload = {
-      title: 'string title',
-      body: 'string body',
-      owner: 'string owner',
+      title: 'stringTitle',
+      body: 'stringBody',
+      owner: 'stringOwnerId',
     };
 
     // Action
