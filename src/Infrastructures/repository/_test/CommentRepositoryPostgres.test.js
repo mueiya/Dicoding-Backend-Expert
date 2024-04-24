@@ -1,3 +1,4 @@
+const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const PostComment = require('../../../Domains/comments/entities/PostComment');
@@ -25,8 +26,16 @@ describe('CommentRepositoryPostgres', () => {
         fullname: 'stringFullname',
       }); // Add the user first
 
+      await ThreadsTableTestHelper.addThread({
+        id: 'stringThreadId',
+        title: 'stringTitle',
+        body: 'stringBody',
+        owner: 'stringOwnerId',
+      }); // Add the thread to comments on
+
       const postComment = new PostComment({
         content: 'stringContent',
+        thread: 'stringThreadId',
         owner: 'stringOwnerId',
       });
 
@@ -55,8 +64,16 @@ describe('CommentRepositoryPostgres', () => {
         fullname: 'stringFullname',
       }); // Add the user first
 
+      await ThreadsTableTestHelper.addThread({
+        id: 'stringThreadId',
+        title: 'stringTitle',
+        body: 'stringBody',
+        owner: 'stringOwnerId',
+      }); // Add the thread to comments on
+
       const postComment = new PostComment({
         content: 'stringContent',
+        thread: 'stringThreadId',
         owner: 'stringOwnerId',
       });
 
