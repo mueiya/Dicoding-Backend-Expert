@@ -159,8 +159,8 @@ By following these steps, you'll be able to set up the environment, run the migr
 - 🛢️ **Database**: PostgreSQL
 - 🔒 **Encryption**: bcrypt
 - 🔧 **Environment Variables Management**: dotenv
-- 🧪 **Testing**: Jest (with integration for environment variables using dotenv), ESLint
-- 🛠️ **Development Utilities**: nodemon, node-pg-migrate
+- 🧪 **Testing**: Jest (with integration for environment variables using dotenv)
+- 🛠️ **Development Utilities**: nodemon, node-pg-migrate, Prettier, ESLint
 - 📝 **Language**: JavaScript
 
 ## Testing API
