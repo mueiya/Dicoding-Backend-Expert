@@ -1,5 +1,6 @@
 const CommentRepository = require('../../Domains/comments/CommentRepository');
 const PostedComment = require('../../Domains/comments/entities/PostedComment');
+
 class CommentRepositoryPostgres extends CommentRepository {
   constructor(pool, idGenerator) {
     super();
