@@ -3,13 +3,18 @@ const PostCommentUseCase = require('../../../../Applications/use_case/PostCommen
 class CommentHandler {
   constructor(container) {
     this._container = container;
+
+    this.postCommentHandler = this.postCommentHandler.bind(this);
   }
 
   async postCommentHandler(request, h) {
     const { payload } = request;
     const { id: userId } = request.auth.credentials;
+    const { threadId } = request.params;
+
     const useCasePayload = {
       content: payload.content,
+      thread: threadId,
       owner: userId,
     };
 
@@ -17,6 +22,7 @@ class CommentHandler {
       PostCommentUseCase.name,
     );
     const postedComment = await postCommentUseCase.execute(useCasePayload);
+
     const response = h.response({
       status: 'success',
       message: 'Comment posted successfully',
