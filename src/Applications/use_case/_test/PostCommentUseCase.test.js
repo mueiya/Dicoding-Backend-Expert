@@ -55,5 +55,8 @@ describe('PostCommentUseCase', () => {
         owner: useCasePayload.owner,
       }),
     );
+    expect(mockThreadRepository.verifyThreadAvailability).toBeCalledWith(
+      useCasePayload.thread,
+    );
   });
 });
