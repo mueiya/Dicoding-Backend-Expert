@@ -46,7 +46,7 @@ class CommentRepositoryPostgres extends CommentRepository {
     const result = await this._pool.query(query);
     if (!result.rowCount) {
       throw new AuthorizationError(
-        `user with id = ${id} in not the owner of this comment`,
+        `user with id = ${owner} in not the owner of this comment`,
       );
     }
   }
