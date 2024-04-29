@@ -135,7 +135,7 @@ describe('CommentRepositoryPostgres', () => {
           'comment-stringCommentId',
           'thread-stringThreadId',
         ),
-      ).resolves;
+      ).resolves.not.toThrow(NotFoundError);
     });
   });
 
@@ -164,7 +164,7 @@ describe('CommentRepositoryPostgres', () => {
           'comment-stringCommentId',
           'user-stringUserId', // Same owner as in the comment
         ),
-      ).resolves;
+      ).resolves.not.toThrow(AuthorizationError);
     });
 
     it('should reject when comment owner does not match', async () => {

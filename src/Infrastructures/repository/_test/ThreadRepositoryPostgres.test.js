@@ -104,7 +104,7 @@ describe('ThreadRepositoryPostgres', () => {
         threadRepositoryPostgres.verifyThreadAvailability(
           'thread-stringThreaId',
         ),
-      ).resolves;
+      ).resolves.not.toThrow(NotFoundError);
     });
   });
 
