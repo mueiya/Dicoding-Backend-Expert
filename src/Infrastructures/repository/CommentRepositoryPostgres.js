@@ -33,7 +33,9 @@ class CommentRepositoryPostgres extends CommentRepository {
 
     const result = await this._pool.query(query);
     if (!result.rowCount) {
-      throw new NotFoundError(`thread with id = ${id} is not found`);
+      throw new NotFoundError(
+        `comment with id = ${id} in thread with id = ${thread} is not found`,
+      );
     }
   }
 
