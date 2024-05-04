@@ -6,6 +6,8 @@ class GetThreadById {
 
   async execute(useCasePayload) {
     const { thread } = useCasePayload;
+    // Verify Thread  Availability
+    await this._threadRepository.verifyThreadAvailability(thread);
 
     // Retrieve thread and comments
     const threadResult = await this._threadRepository.getThreadById(thread);

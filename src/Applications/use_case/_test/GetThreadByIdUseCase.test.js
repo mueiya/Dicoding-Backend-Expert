@@ -40,10 +40,14 @@ describe('PostCommentUseCase', () => {
 
     // Mock ThreadRepository
     const mockThreadRepository = new ThreadRepository();
+    // Mock verifyThreadAvailability
+    mockThreadRepository.verifyThreadAvailability = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+    // Mock getThreadById
     mockThreadRepository.getThreadById = jest
       .fn()
       .mockResolvedValue(mockGetThread);
-
     // Mock CommentRepository
     const mockCommentRepository = new CommentRepository();
     mockCommentRepository.getCommentByThreadId = jest
@@ -60,6 +64,9 @@ describe('PostCommentUseCase', () => {
 
     // Assert
     expect(mockThreadRepository.getThreadById).toHaveBeenCalledWith(
+      useCasePayload.thread,
+    );
+    expect(mockThreadRepository.verifyThreadAvailability).toHaveBeenCalledWith(
       useCasePayload.thread,
     );
     expect(mockCommentRepository.getCommentByThreadId).toHaveBeenCalledWith(
