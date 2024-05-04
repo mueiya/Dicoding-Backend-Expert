@@ -26,6 +26,7 @@ describe('PostCommentUseCase', () => {
         username: 'stringCommentUsername1',
         date: '2024-04-25T12:00:00Z', // ISO format string
         thread: 'stringThreadId',
+        deleted: true,
       },
       {
         id: 'stringCommentId2',
@@ -33,6 +34,7 @@ describe('PostCommentUseCase', () => {
         username: 'stringCommentUsername2',
         date: '2024-04-26T12:00:00Z', // ISO format string
         thread: 'stringThreadId',
+        deleted: false,
       },
     ]);
 
@@ -73,7 +75,7 @@ describe('PostCommentUseCase', () => {
         comments: [
           {
             id: 'stringCommentId1',
-            content: 'stringCommentContent1',
+            content: '**komentar telah dihapus**',
             username: 'stringCommentUsername1',
             date: '2024-04-25T12:00:00Z', // ISO format string
           },
