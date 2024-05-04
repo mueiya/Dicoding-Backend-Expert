@@ -249,16 +249,6 @@ describe('CommentRepositoryPostgres', () => {
       );
       expect(comments[0].deleted).toEqual(true); // Comment should be deleted
     });
-
-    it('should not throw error if comment does not exist', async () => {
-      // Arrange
-      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
-
-      // Action and Assert
-      await expect(
-        commentRepositoryPostgres.deleteCommentById('non-existing-comment-id'),
-      ).rejects.toThrow(NotFoundError);
-    });
   });
 
   describe('getCommentByThreadId', () => {
