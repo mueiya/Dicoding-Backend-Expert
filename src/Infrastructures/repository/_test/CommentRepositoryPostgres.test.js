@@ -100,8 +100,9 @@ describe('CommentRepositoryPostgres', () => {
     });
   });
 
-  describe('verivyCommentAvailability', () => {
-    it('should resolve and throw error when comment is not found', async () => {
+  describe('veriyCommentAvailability', () => {
+    it('should throw error when comment is not found', async () => {
+      // Arrange
       await UsersTableTestHelper.addUser({
         id: 'user-stringUserId',
         username: 'stringUsername',
@@ -129,7 +130,30 @@ describe('CommentRepositoryPostgres', () => {
           'thread-stringThreadId',
         ),
       ).rejects.toThrow(NotFoundError);
+    });
+    it('should resolve when comment is found', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringUserId',
+        username: 'stringUsername',
+      }); // Thread User
+      await UsersTableTestHelper.addUser({
+        id: 'user-stringCommentUserId',
+        username: 'stringCommentUsername',
+      }); // Comment User
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-stringThreadId',
+        owner: 'user-stringUserId',
+      });
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-stringCommentId',
+        thread: 'thread-stringThreadId',
+        owner: 'user-stringCommentUserId',
+      });
 
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action and Assert
       await expect(
         commentRepositoryPostgres.verifyCommentAvailability(
           'comment-stringCommentId',
